@@ -14,8 +14,6 @@ Write a command line tool:
 
 	Other functionality: Provide a snapshot and excited atom, and fetch xyz coordinates
 
-Questions for Arun:
-	*In Nodal_graph, what is the index that the spectroscopy is mapping to? how do we know what index each is stored in?
 
 TRAC instructions:
 Make a trac account and get David to authorize you to pull the repo

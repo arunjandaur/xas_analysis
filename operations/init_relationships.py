@@ -1,8 +1,8 @@
 #Module used to create relationship objects for a given nodal_graph with only atom nodes.
-from calculate_coords import distance, angle, dihedral
-from Nodify import atom_nodes_init #For Testing
-from Nodal_Graph_Types import Connection
-from GraphModule import Histogram
+from coordinates.calculate_coords import distance, angle, dihedral
+from nodify import atom_nodes_init #For Testing
+from nodal_graph import Connection
+from graph_module import Histogram
 import sys
 
 

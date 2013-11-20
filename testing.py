@@ -1,6 +1,6 @@
 from Spectroscopy import Spectroscopy#For Testing 
-from Init_Relationships import relationships_init
-from Nodify import atom_nodes_init #For Testing
+from init_relationships import relationships_init
+from nodify import atom_nodes_init #For Testing
 from Analyzer import Analyzer#For Testing
 import sys #For Testing
 import os #For Testing

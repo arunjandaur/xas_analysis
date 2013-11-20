@@ -1,6 +1,5 @@
 #Module used to create the atom node object for the nodal graph from a given xyz. Does not calculate relationships or does any sort of analysis. This simply creates the nodes to be used for that
-
-from Nodal_Graph_Types import Nodal_Graph, Node
+from nodal_graph import NodalGraph, Node
 
 def atom_nodes_init(xyzFile):
 	"""

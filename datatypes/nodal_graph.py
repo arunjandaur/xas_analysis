@@ -1,8 +1,8 @@
 import random
-from Atom import Atom
-from Spectroscopy import Spectroscopy
+from atom import Atom
+from spectroscopy import Spectroscopy
 
-class Nodal_Graph(object):
+class NodalGraph(object):
 	"""
 	Main data type for storing all the nodes of an inputs file
 	/Nodes are stored within a doubled keyed dictionary with lists
