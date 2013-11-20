@@ -1,9 +1,9 @@
+from coordinate import *
+
 class Atom(object):
-	def __init__(self, name, x, y, z):
+	def __init__(self, name="", x, y, z):
 		self.name = name
-		self.x = x
-		self.y = y
-		self.z = z
+		self._coordinate = Coordinate(x, y, z)
 
 	def get_name(self):
 		"""Returns a string of the name of the atom type"""
@@ -11,12 +11,12 @@ class Atom(object):
 
 	def get_x(self):
 		"""Returns a float of the x coordinate"""
-		return self.x
+		return self._coordinate.get_x()
 
 	def get_y(self):
 		"""Returns a float of the y coordinate"""
-		return self.y
+		return self._coordinate.get_y()
 
 	def get_z(self):
 		"""Returns a float of the z coordinate"""
-		return self.z
+		return self._coordinate.get_z()
