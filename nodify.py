@@ -9,7 +9,7 @@ def atom_nodes_init(xyzFile):
 
 	xyz_file = open(xyzFile)
 
-	graph = Nodal_Graph()
+	graph = NodalGraph()
 
 
 	#These two do nothing for now. Only used to increment through file.

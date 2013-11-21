@@ -9,7 +9,7 @@ def lattice_xyz_matrix(alpha, beta, gamma):
 	matrix = []
 	matrix[0] = [1, 0, 0]
 	matrix[1] = [cos(alpha), sin(alpha), 0]
-	matrix[2] = [cos(alpha)*cos(beta), cos(alpha)*sin(beta), sin(beta]
+	matrix[2] = [cos(alpha)*cos(beta), cos(alpha)*sin(beta), sin(beta)]
 	return matrix(matrix)
 
 def xyz_lattice_matrix(alpha, beta, gamma):

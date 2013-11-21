@@ -25,7 +25,7 @@ xyzfile=$1;
 rm -rf histograms
 mkdir histograms
 cd histograms
-python ../operations/init_relationships.py ../$xyzfile
+python ../init_relationships.py ../$xyzfile
 ../gnuplot_stuff.sh *
 cd ..
 rm *.pyc

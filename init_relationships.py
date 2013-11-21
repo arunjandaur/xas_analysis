@@ -1,12 +1,11 @@
 #Module used to create relationship objects for a given nodal_graph with only atom nodes.
-from coordinates.calculate_coords import distance, angle, dihedral
+from calculate_coords import distance, angle, dihedral
 from nodify import atom_nodes_init #For Testing
 from nodal_graph import Connection
 from graph_module import Histogram
 import sys
 
-
-func_parameters = [_create_distances]
+FILTER_SIZE = 3
 
 def relationships_init(node_graph):
 	"""
@@ -19,13 +18,15 @@ def relationships_init(node_graph):
 	Within this module, this is the only function that should be called from other programs. 
 	Everything else is a helper function
 	"""
+	filter_size = 20
+	bucket_width = .35
 	for func in func_parameters:
-		func(node_graph, 20)
+		func(node_graph, filter_size)
 
 	relationships = node_graph.get_relationships()
 	histograms = []
 	for relationship in relationships:
-		histogram = _create_prob_graphs(node_graph, relationship, 0.005)
+		histogram = _create_prob_graphs(node_graph, relationship, bucket_width)
 		histograms.append(histogram)
 
 	for histogram in histograms:
@@ -34,7 +35,7 @@ def relationships_init(node_graph):
 		fil.close()
 
 #Distances
-def _create_distances(node_graph, filter_size = 3):
+def _create_distances(node_graph, filter_size = FILTER_SIZE):
 	"""
 	Given a nodal graph and a maximum filter size, creates distances relationships for all
 	the atoms nodes and then binds them to the nodes and the graph
@@ -100,6 +101,8 @@ def relationship_vs_intensity(graph, relationship, energy_min, energy_max):
 				xy_graph.add_point(data, intensity)
 				
 	return xy_graph
+
+func_parameters = [_create_distances]
 
 #For Testing Purposes
 if __name__ == "__main__":	

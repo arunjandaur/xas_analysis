@@ -1,9 +1,7 @@
 from __future__ import division
 from math import sqrt, acos, atan2, sin
-from atom import *
 from coordinate import *
-from numpy import linalg
-from linalg import *
+from numpy.linalg import *
 
 def subtract(a, b):
 	"""
