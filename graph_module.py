@@ -34,6 +34,10 @@ class Histogram(object):
 		self.buckets = {}
 		self.bucket_width = bucket_width
 		self.gaussians = []
+
+
+#	def add_count(self, count):
+#		self.count = count
 	
 	def get_name(self):
 		"""
@@ -55,6 +59,7 @@ class Histogram(object):
 		"""
 		Returns the amount in a given bucket
 		"""
+#		return len(self.buckets[bucket])/self.count
 		return len(self.buckets[bucket])
 
 	def get_relationships_from_bucket(self, bucket):

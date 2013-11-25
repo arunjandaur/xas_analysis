@@ -8,7 +8,7 @@ output="plot"
 
 for file_name in "$@"
 	do
-		output="$output \"$file_name\" with lines,"
+		output="$output \"$file_name\" with points,"
 	done
 
 echo ${output%?} | gnuplot -p
