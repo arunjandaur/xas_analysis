@@ -25,7 +25,7 @@ class Lattice_Transform(object):
 			alpha, beta, gamma = angles between lattice vectors(in radians)
 			
 		Returns a transformation matrix that will yield cartesian coordinates 
-		when lattice coordinates are Right multiplied by this transformation matrix.
+		when lattice coordinates are RIGHT multiplied by this transformation matrix.
 		"""
 		matrx = []
 		matrx.append([a, 0, 0])
@@ -65,6 +65,7 @@ class Lattice_Transform(object):
 		return lattice_vectors + dx - floor(lattice_vectors + dx)
 
 if __name__ == "__main__":
+	#Specifically test phenakite
 	mat = Lattice_Transform(12.69451,12.69451,8.34858,90,90,120)
 	out_put = open("lat_test_ex.xyz","w")
 	with open("phenakite_ex.xyz","r") as xyz_file:
