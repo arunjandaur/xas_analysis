@@ -1,18 +1,20 @@
 /////PrenderTasks/////
 
+Lev's Work on Monday:
++Implemented periodicity module
+
+
 TODO:
-Linear algebra module
-Use histogram to detect structural characteristics
-Revise nodal graph for efficiency
-Look into Solid State Physics
-Implement periodicity
++Use histogram to detect structural characteristics
++Look into Solid State Physics
++Need to input periodity module into relationship contstruction
++Need to alter nodes to stores numpy arrays of their coordinates and delete coordinate class
++Look into splining for finding best fit model
++Talk to Lev about how splining will be used because David and he thought of a few ideas
++Do the above bullet point
++Think about how to implement angle generation
 
-
-Write a command line tool:
-	Input: One .xyz file that contains many snapshots and a list of excited atoms with line numbers
-	Output: A bunch of text that lists every single distance, angle, and/or dihedral around each excited atom
-
-	Other functionality: Provide a snapshot and excited atom, and fetch xyz coordinates
++Change histogram from using a dictionary with a list that is split up into buckets. The reason is to be able to have buckets who have zero frequency because it has very useful properties for splining and finding important points.In addition, each node should now have its own histogram of the all the type of neighbors it has to compare with other nodes later.
 
 
 TRAC instructions:

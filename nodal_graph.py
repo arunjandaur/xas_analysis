@@ -14,8 +14,8 @@ class NodalGraph(object):
 	/Connections are stored within a doubled keyed dictionary with lists
 	The first key is a snapshot number
 	The second key is the relationship type
-	The final part is a list that stores all the connections that represent 
-	connections from the same snapshot with the same relationship type/
+	The final part is a list that stores all the links that represent 
+	links from the same snapshot with the same relationship type/
 
 	Since not every snapshot will have the same amount of relationships due to how we filter,
 	I think it best to store all the possible relationships in all the snapshots in a 
@@ -25,7 +25,7 @@ class NodalGraph(object):
 	"""
 	def __init__(self):
 		self.nodes  = {}
-		self.connections = {}
+		self.links = {}
 		self.relationships = []
 		self.spectra = {}
 
@@ -56,30 +56,30 @@ class NodalGraph(object):
 		a list of names from an arbitrary snapshot"""
 		return random.choice(list(self.nodes.values())).keys()	
 	
-	def add_connection(self, connection):
-		"""Adds a connection"""
-		assert isinstance(connection, Connection)
-		snap_num = connection.get_snap_num()
-		relationship = connection.get_relationship()
-		if not self.connections.has_key(snap_num):
-			self.connections[snap_num] = {}
-		if not self.connections[snap_num].has_key(relationship):
-			self.connections[snap_num][relationship] = []
+	def add_link(self, link):
+		"""Adds a link"""
+		assert isinstance(link, Link)
+		snap_num = link.get_snap_num()
+		relationship = link.get_relationship()
+		if not self.links.has_key(snap_num):
+			self.links[snap_num] = {}
+		if not self.links[snap_num].has_key(relationship):
+			self.links[snap_num][relationship] = []
 			if not relationship in self.relationships:
 				self.relationships.append(relationship)		
 		
-		self.connections[snap_num][relationship].append(connection)
+		self.links[snap_num][relationship].append(link)
 	
 	def get_relationships(self):
 		"""Returns a list of all the types of relationships in the graph"""
 		return self.relationships	
 		
-	def get_connections(self, snap_num, relationship):
-		"""Returns a list of all the connections grouped by the snapshot and
+	def get_links(self, snap_num, relationship):
+		"""Returns a list of all the links grouped by the snapshot and
 		relationship given
 		///////This needs to be refined because not every snapshot will have the 
 		same relationships in them based on how we filter/////////////"""
-		return self.connections[snap_num][relationship]
+		return self.links[snap_num][relationship]
 
 	def add_spectrum(self, index, spectroscopy):
 		assert isinstance(spectroscopy, Spectroscopy)
@@ -95,8 +95,8 @@ class NodalGraph(object):
 				for atom in self.nodes[snap_num][name]:
 					answer += "---{0}---\n".format(atom.get_name())
 					for relationship in atom.get_relationships():
-						for connection in atom.get_connections(relationship):
-							answer += "  " + str(connection) + "\n"
+						for link in atom.get_links(relationship):
+							answer += "  " + str(link) + "\n"
 
 		answer += "\n\n"
 		
@@ -131,17 +131,17 @@ class Node(Atom):
 	It will contain information about the atom's
 	*xyz coordinate 
 	*snapshot number from which it originated
-	*meaningful connections it has with other nodes
-	Connections are stored within a dictionary of lists
-	The dictionary keys will be the relationships of a connection
+	*meaningful links it has with other nodes
+	Links are stored within a dictionary of lists
+	The dictionary keys will be the relationships of a link
 	e.x. distance between C-C
-	The lists within the dictionary will store each connection, grouped by 
+	The lists within the dictionary will store each link, grouped by 
 	the same relationship
 	"""
 	def __init__(self, name, x, y, z, snap_num, spectra=None):
 		super(Node, self).__init__(name, x, y, z)
 		self.snap_num = snap_num
-		self.connections = {}
+		self.links = {}
 		self.spectra = spectra
 
 	def get_snap_num(self):
@@ -152,26 +152,26 @@ class Node(Atom):
 		"""Returns a spectroscopy class that stores the spectra for this atom"""
 		return spectra
 
-	def add_connection(self, connection):
-		"""Adds a new connection to the dictionary of connections"""
-		if self.connections.has_key(connection.get_relationship()):
-			self.connections[connection.get_relationship()].append(connection)
+	def add_link(self, link):
+		"""Adds a new link to the dictionary of links"""
+		if self.links.has_key(link.get_relationship()):
+			self.links[link.get_relationship()].append(link)
 		else:
-			self.connections[connection.get_relationship()] = [connection]
+			self.links[link.get_relationship()] = [link]
 	
-	def remove_connection(self,connection):
-		"""Removes a connection"""
-		self.connections[connection.get_relationship()].remove(connection)
+	def remove_link(self,link):
+		"""Removes a link"""
+		self.links[link.get_relationship()].remove(link)
 
 	def get_relationships(self):
 		"""Returns a list of all the relationships connected to this node"""
-		return self.connections.keys()
+		return self.links.keys()
 
-	def get_connections(self, relationship):
-		"""Returns a list of connections grouped by their relationship"""
-		return self.connections[relationship]
+	def get_links(self, relationship):
+		"""Returns a list of links grouped by their relationship"""
+		return self.links[relationship]
 
-class Connection(object):
+class Link(object):
 	"""
 	Connection will represent a relationship between two or more atoms.
 	This can be any relationship that has a numerical value associated with it 
@@ -191,7 +191,7 @@ class Connection(object):
 		return self.neighbors
 
 	def get_relationship(self):
-		"""Returns a string that tells the type of relationship this connections holds
+		"""Returns a string that tells the type of relationship this links holds
 		between the neighbors"""
 		return self.relationship
 
@@ -204,4 +204,7 @@ class Connection(object):
 		return self.snap_num
 
 	def add_neighbor(self, neighbor):
-		"""Adds a neighbor to the connection"""
+		"""Adds a neighbor to the link"""
+
+
+

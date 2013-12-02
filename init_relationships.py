@@ -1,7 +1,7 @@
 #Module used to create relationship objects for a given nodal_graph with only atom nodes.
 from calculate_coords import distance, angle, dihedral
 from nodify import atom_nodes_init #For Testing
-from nodal_graph import Connection
+from nodal_graph import Link
 from graph_module import Histogram
 import sys
 
@@ -18,8 +18,9 @@ def relationships_init(node_graph):
 	Within this module, this is the only function that should be called from other programs. 
 	Everything else is a helper function
 	"""
-	filter_size = 20
-	bucket_width = .01
+	filter_size = 6
+	bucket_width = .05
+
 	for func in func_parameters:
 		func(node_graph, filter_size)
 
@@ -28,7 +29,7 @@ def relationships_init(node_graph):
 	for relationship in relationships:
 		histogram = _create_prob_graphs(node_graph, relationship, bucket_width)
 		histograms.append(histogram)
-
+	
 	for histogram in histograms:
 		fil = open(histogram.get_name(), 'w')
 		fil.write(str(histogram))
@@ -56,12 +57,12 @@ def _make_distance_for_snap(snap, node_graph, filter_size = 3):
 					distance_data = distance(atom_1, atom_2)
 					if distance_data <= filter_size and distance_data > 0:
 						relationship = "Distance {0} - {1}".format(atom_1.get_name(), atom_2.get_name())
-						dist_con = Connection(snap, relationship, distance_data)
+						dist_con = Link(snap, relationship, distance_data)
 						dist_con.add_neighbor(atom_1)
 						dist_con.add_neighbor(atom_2)
-						atom_1.add_connection(dist_con)
-						atom_2.add_connection(dist_con)
-						node_graph.add_connection(dist_con)
+						atom_1.add_link(dist_con)
+						atom_2.add_link(dist_con)
+						node_graph.add_link(dist_con)
 		i = i + 1
 		
 #Angles
@@ -78,10 +79,10 @@ def _create_prob_graphs(node_graph, relationship, bucket_width):
 	histogram = Histogram(relationship, bucket_width)
 	
 	for snap_key in snapshot_keys:
-		connections = node_graph.get_connections(snap_key, relationship)
+		links = node_graph.get_links(snap_key, relationship)
 		
-		for connection in connections:
-			histogram.add_point(connection)
+		for link in links:
+			histogram.add_point(link)
 			
 	return histogram
 
@@ -91,12 +92,12 @@ def relationship_vs_intensity(graph, relationship, energy_min, energy_max):
 	xy_graph = XY_Graph()
 	
 	for snap_key in snapshot_keys:
-		connections = self.graph.get_connections(snap_key, relationship)
+		links = self.graph.get_links(snap_key, relationship)
 		spectrum = self.graph.get_spectrum(snap_key)
 		intensities = spectrum.get_intensities(energy_min, energy_max)
 		
-		for connection in connections:
-			data = connection.get_data()
+		for link in links:
+			data = link.get_data()
 			for intensity in intensities:
 				xy_graph.add_point(data, intensity)
 				
