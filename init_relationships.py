@@ -19,7 +19,7 @@ def relationships_init(node_graph):
 	Everything else is a helper function
 	"""
 	filter_size = 20
-	bucket_width = .35
+	bucket_width = .01
 	for func in func_parameters:
 		func(node_graph, filter_size)
 
