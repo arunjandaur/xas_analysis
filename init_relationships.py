@@ -18,8 +18,8 @@ def relationships_init(node_graph):
 	Within this module, this is the only function that should be called from other programs. 
 	Everything else is a helper function
 	"""
-	filter_size = 6
-	bucket_width = .05
+	filter_size = 2.5
+	bucket_width = .075
 
 	for func in func_parameters:
 		func(node_graph, filter_size)
