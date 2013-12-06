@@ -4,6 +4,7 @@ from nodify import atom_nodes_init #For Testing
 from nodal_graph import Link
 from graph_module import Histogram
 import sys
+import itertools
 
 FILTER_SIZE = 3
 
@@ -18,8 +19,8 @@ def relationships_init(node_graph):
 	Within this module, this is the only function that should be called from other programs. 
 	Everything else is a helper function
 	"""
-	filter_size = 2.5
-	bucket_width = .075
+	filter_size = 6
+	bin_width = .01
 
 	for func in func_parameters:
 		func(node_graph, filter_size)
@@ -27,12 +28,23 @@ def relationships_init(node_graph):
 	relationships = node_graph.get_relationships()
 	histograms = []
 	for relationship in relationships:
-		histogram = _create_prob_graphs(node_graph, relationship, bucket_width)
+		histogram = _create_prob_graphs(node_graph, relationship, bin_width, filter_size)
 		histograms.append(histogram)
 	
 	for histogram in histograms:
-		fil = open(histogram.get_name(), 'w')
+		name = histogram.get_name().replace(" ", "")
+		fil = open(name, 'w')
 		fil.write(str(histogram))
+		fil.close()
+
+		bestfit = ""
+		points = histogram.spline()
+		x_points = points[0]
+		frequencies = points[1]
+		for x, frequency in itertools.izip(x_points, frequencies):
+			bestfit += "{0} {1}\n".format(x, frequency)
+		fil = open(name + "_bestfit", 'w')
+		fil.write(bestfit)
 		fil.close()
 
 #Distances
@@ -42,7 +54,6 @@ def _create_distances(node_graph, filter_size = FILTER_SIZE):
 	the atoms nodes and then binds them to the nodes and the graph
 	"""
 	snap_nums = node_graph.get_snapshots()
-
 	for snap in snap_nums:
 		_make_distance_for_snap(snap, node_graph, filter_size)
 			
@@ -74,16 +85,14 @@ def _create_dihedrals(node_graph):
 	pass
 
 #Probabilities
-def _create_prob_graphs(node_graph, relationship, bucket_width):
+def _create_prob_graphs(node_graph, relationship, bucket_width, filter_size = FILTER_SIZE):
 	snapshot_keys = node_graph.get_snapshots()
-	histogram = Histogram(relationship, bucket_width)
+	histogram = Histogram(relationship, bucket_width, filter_size)
 	
 	for snap_key in snapshot_keys:
 		links = node_graph.get_links(snap_key, relationship)
-		
 		for link in links:
 			histogram.add_point(link)
-			
 	return histogram
 
 def relationship_vs_intensity(graph, relationship, energy_min, energy_max):
