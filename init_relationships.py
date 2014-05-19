@@ -20,7 +20,7 @@ def relationships_init(node_graph):
 	Everything else is a helper function
 	"""
 	filter_size = 6
-	bin_width = .01
+	bin_width = .1
 
 	for func in func_parameters:
 		func(node_graph, filter_size)
